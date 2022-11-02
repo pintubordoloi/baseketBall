@@ -14,7 +14,7 @@ HAND_SIZE = 200
 HAND_HITBOX_SIZE = (60, 80)
 MOSQUITOS_SIZES = (50, 38)
 MOSQUITO_SIZE_RANDOMIZE = (1,2) # for each new mosquito, it will multiply the size with an random value beteewn X and Y
-BEE_SIZES = (50, 50)
+BEE_SIZES = (100, 100)
 BEE_SIZE_RANDOMIZE = (1.2, 1.5)
 
 # drawing

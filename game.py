@@ -8,6 +8,7 @@ from hand_tracking import HandTracking
 import cv2
 import ui
 from ball import *
+from image import *
 
 class Game:
     def __init__(self, surface):
@@ -57,20 +58,24 @@ class Game:
         self.load_camera()
         self.set_hand_position()
         self.game_time_update()
-
+        (x, y) = self.hand_tracking.get_hand_center()
+        finger = pygame.draw.rect(self.surface,(255, 255, 0, 0), pygame.Rect(x-10, y-10, 50, 50))
         self.draw()
 
         if self.time_left > 0:
             
-            (x, y) = self.hand_tracking.get_hand_center()
+            
             self.hand.rect.center = (x, y)
             #runEverything(self.surface, x, y)
             self.hand.left_click = self.hand_tracking.hand_closed
             print("Hand closed", self.hand.left_click)
             
-            finger = pygame.draw.rect(self.surface,(255, 255, 0, 0), pygame.Rect(x-10, y-10, 50, 50))
-            ball1 = pygame.draw.rect(self.surface, (255, 255, 199), ball)
             basket1 = pygame.draw.rect(self.surface, (255, 155, 200), basket)
+            ball1 = pygame.draw.rect(self.surface, (255, 255, 199), ball)
+            img = load("Assets/ball.png", size=BEE_SIZES)
+            img1 = draw(self.surface, img, (ball.rect.x + 15, ball.rect.y + 15),"center")
+            
+            
             if self.hand.left_click:
                 self.hand.image = self.hand.image_smaller.copy()
                 if ball.rect.colliderect(finger):
@@ -79,7 +84,11 @@ class Game:
                     gravity(x, y)
             else:
                 self.hand.image = self.hand.orig_image.copy()
-
+                gravity(x, y)
+            if ball.rect.colliderect(basket1):
+                if abs(ball1.bottom - basket1.bottom) < 10:
+                    print("Goal")
+                    self.score += 1
         else: # when the game is over
             if ui.button(self.surface, 540, "Continue"):
                 return "menu"

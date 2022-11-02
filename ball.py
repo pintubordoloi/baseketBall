@@ -14,10 +14,12 @@ class Ball(object):
 
 	def freeFall(self, dx, dy):
 		print("freeFall")
+		if self.rect.bottom <= 600:
+			self.rect.y += 20
 
 class Basket(object):
 	def __init__(self):
-		self.rect = pygame.Rect(1100, 300, 50, 50)
+		self.rect = pygame.Rect(500, 200, 200, 50)
 
 
 ball = Ball()
